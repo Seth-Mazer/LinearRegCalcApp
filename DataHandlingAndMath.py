@@ -1,16 +1,17 @@
 #This is where all pandas/numpy/matplotlib code will be stored
 
 #Importing external libraries
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 
-#Importing internal data/stuffs
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 
 #Well, all the data handling!
-def handleData():
+def handleData(dVGEntry):
 
     #Getting the CSV's location
     from TkinterFunctions import dataFileLocation
@@ -21,22 +22,21 @@ def handleData():
     df = pd.read_csv(dataFileLocation)
 
     #The users input for the yColumn/dep var
-    dependantVarColumn = 2
+    dependantVarColumn = dVGEntry
 
-    #Checking if the entry field was either an integer, or a string.
-    #If not string check if integer if not return error
-    if not isinstance(dependantVarColumn, str):
-        try:
-            isinteger = isinstance(dependantVarColumn, int)
-            #If it's an integer, the yColumn (the column that will be dropped), will be dVC - 1, because CSVs are 0-indexed
-            yColumn = df.columns[dependantVarColumn - 1]
-            print(yColumn)
-        except:
-            print("Error, neither string nor column index")
+    #Checking if the entry field was a string like "2" or "HEADER OF Y COLUMN"
+    #If it is a digit, convert it to a integer, if not continue on with string
+    if dependantVarColumn.isdigit():
+        dependantVarColumn = int(dependantVarColumn)
+        #Since CSVs are 0 indexed, the likely response to this entry field is actually the desired index - 1.
+        #So we substract 1 from the given column number, to actually get the desired index.
+        yColumn = df.columns[dependantVarColumn - 1]
     else:
-        #Otherwise use the column name given by the user
+        #Continung on with header name
+        print(dependantVarColumn + "-> We are in the else block")
         yColumn = dependantVarColumn
         print(yColumn)
+
 
     #From this point forward I will refer to the yColumn as the Dependant Variable or related terminolog for the given context
 
@@ -93,7 +93,7 @@ def handleData():
     #Printing Coeff of Det.
     print(round(CoD,5))
 
-
+    return intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df
 
 
 

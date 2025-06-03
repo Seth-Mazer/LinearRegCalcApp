@@ -8,6 +8,8 @@ from customtkinter import *
 from TkinterFunctions import uploadFile
 from DataHandlingAndMath import handleData
 
+# from Plotting import plot
+
 
 #Creating App and App geometry, then canvas
 Window = tk.CTk()
@@ -25,17 +27,28 @@ canvas.pack()
 uploadButton = CTkButton(Window, text="Upload Data", command=uploadFile)
 canvas.create_window(300, 450, window = uploadButton)
 
+
 #Creating dependant variable or "y" entry for model to be trained on
 dependantVariableGetter = CTkEntry(Window)
 canvas.create_window(200,200, window = dependantVariableGetter)
 
 
+#Creating a function handle getting the data from dVG because we don't want to call get immediately and pass a null like data type
+def handleRun():
+    dVGEntry = dependantVariableGetter.get()
+    handleData(dVGEntry)
 #Creating run button
-runButton = CTkButton(Window, text="Run", command = handleData)
+runButton = CTkButton(Window, text="Run", command = handleRun)
 canvas.create_window(500, 450, window = runButton)
 
 
 
+
+
+# Creating generate plot button
+# genPlotButton = CTkButton(Window, text="Generate Plot", command = plot)
+# canvas.create_window(600,500, window = genPlotButton)
+#
 
 
 
