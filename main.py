@@ -24,23 +24,23 @@ canvas.pack()
 
 
 #Creating upload file button, Y entry, and Run Button
-uploadButton = CTkButton(Window, text="Upload Data", command=uploadFile)
-canvas.create_window(300, 450, window = uploadButton)
+uploadButton = CTkButton(Window, text="Upload Data", command=lambda: uploadFile(runButton))
+canvas.create_window(200, 450, window = uploadButton)
 
 
 #Creating dependant variable or "y" entry for model to be trained on
 dependantVariableGetter = CTkEntry(Window)
-canvas.create_window(200,200, window = dependantVariableGetter)
+canvas.create_window(400,450, window = dependantVariableGetter)
 
 
 #Creating a function handle getting the data from dVG because we don't want to call get immediately and pass a null like data type
 def handleRun():
     dVGEntry = dependantVariableGetter.get()
     handleData(dVGEntry)
-#Creating run button
+#Creating run button and setting its state to disabled, so the user cant run the program without a valid file
 runButton = CTkButton(Window, text="Run", command = handleRun)
-canvas.create_window(500, 450, window = runButton)
-
+canvas.create_window(600, 450, window = runButton)
+runButton.configure(state="disabled")
 
 
 
