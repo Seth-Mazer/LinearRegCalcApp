@@ -1,13 +1,13 @@
 No fancy preview yet.
 
-As of this current bare-bones readme 6/03/2025,
+As of this current bare-bones readme 6/04/2025,
 All math works correctly, and prints both the Regression Equation and Coefficient of Determination to the terminal
 This is a linear model, using lienar regression. It will work for n features.
 
 As of this current draft, you can indeed select any CSV, and assuming all rows are numerical, calculate your yHat/reg equation and CoD based on the rest of the columns.
 However, GUI implementation is wonky right now. You can click upload to upload, and you can run.
 
-**Update 6-03-2025** Entry field now works. 
+**Update 6-04-2025** The user now must upload a valid file type, which is a CSV with 2 or more columns. Error handling has been implemented to prevent bad files. 
 
 Current caveats:
 - 🚫 Delightful Looking Gui
