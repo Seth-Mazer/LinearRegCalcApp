@@ -5,10 +5,6 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
 
 #Well, all the data handling!
 def handleData(dVGEntry):
@@ -93,7 +89,7 @@ def handleData(dVGEntry):
     #Printing Coeff of Det.
     print(round(CoD,5))
 
-    return intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df
+    return intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, dependantVarColumn
 
 
 

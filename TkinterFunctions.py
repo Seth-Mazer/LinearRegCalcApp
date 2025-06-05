@@ -2,16 +2,25 @@
 #I.e. uploading a file
 
 #Importing external libraries
-from tkinter import filedialog
+import customtkinter as tk
+from customtkinter import *
 import pandas as pd
+
+
+#Function to send status messages to the GUI
+def sendStatus(statusText, status, color):
+
+    #Configuring the status text, with the status passed in uploadFile, along with the color
+    statusText.configure(text=status, text_color=color)
 
 
 #Declaring global var for datapath
 dataFileLocation = None
 
 
+
 #Creating upload file function
-def uploadFile(runButton):
+def uploadFile(statusText, runButton):
 
     #Printing that tool was opened
     print("File Selection Opened")
@@ -31,16 +40,19 @@ def uploadFile(runButton):
 
         #Checking if there is a valid filePath (I.e. not "")
         #If so, check to see if it has the valid column amount
-        #If it does, we filePath be assigned to that specific file, if not, we reject by saying file doesnt have valid amount of columns
+        #If it does, filePath be assigned to that specific file, if not, we reject by saying file doesnt have valid amount of columns
         if filePath:
             temp = pd.read_csv(filePath)
             if len(temp.columns) >= 2:
                 temp = filePath
                 dataFileLocation = filePath
                 #Letting run button be.. ran
+                sendStatus(statusText, "✅ File Successfully Uploaded", "black")
                 runButton.configure(state = "normal")
             else:
-                print("File does not have valid amount of columns")
+                sendStatus(statusText, "⚠️ File does not have valid amount of columns", "red")
+                print("File does not have at least 2 columns")
         else:
             print("No File Selected")
+
 
