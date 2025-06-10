@@ -16,7 +16,7 @@ from Plotting import plot
 #Creating App and App geometry, then canvas
 Window = tk.CTk()
 Window.geometry("800x550")
-Window.title("Testy")
+Window.title("Linear Regression Calculator")
 
 #Canvas creation
 canvas = CTkCanvas(Window, width = 800, height = 550)
@@ -41,12 +41,42 @@ def handleRun():
     dVGEntry = dependantVariableGetter.get()
     results = handleData(dVGEntry)
 
-    #Generating the plot figure using the returned values from the data handling
-    fig = plot(*results)
+    if len(results[1]) <= 2:
+        # Generating the plot figure using the returned values from the data handling
+        fig = plot(*results)
 
-    #If a figure exists, call the display function
-    if fig:
-        displayPlot(fig)
+        # Grabbing equation
+        regEquation = results[10]
+
+        # Grabbing CoD, Im aware im defaulting to CoD (Coeff. of Determination) for the var, but in reality
+        # It doesn't matter at all, because we know that itll automatically be the Correlation Coefficient for any CSV with features = 1
+        # and a Coeff of Determiation for any CSV with features > 1
+        CoD = results[3]
+        CoD = round(CoD, 6)
+
+        # If a figure exists, call the display function
+        if fig:
+            displayPlot(fig, regEquation, CoD)
+    else:
+        #If there are more than 2 features, we will just print the regression equation
+        #Major thing here is that with multiple features its very possible the model will be overfit, thus resulting
+        #In an r^2 = 1 or even > 1. I
+        print(len(results[1]))
+        print(len(results[1]) < 2)
+        regEquation = results[10]
+        CoD = results[3]
+        CoD = round(CoD, 6)
+
+        # Creating Labels for both Regression Equation, and either the Coeff (R or R^2)
+        equationText = CTkLabel(Window, text=regEquation)
+        canvas.create_window(400, 220, window=equationText)
+
+        # Coeff of x label
+        eitherCoeff = CTkLabel(Window, text=f"R^2 = {CoD}")
+        canvas.create_window(400, 265, window=eitherCoeff)
+
+        #Stating that since there are more than 2 features, a chart is not possible
+        statusText.configure(text="⚠️ Dataset has more than 2 features, Chart not possible")
 
 
 
@@ -65,7 +95,7 @@ canvas.create_window(200, 480, window = statusText)
 
 
 #Displaying the chart onto the screen
-def displayPlot(fig):
+def displayPlot(fig, regEquation, CoD):
     #Globalizing the plotWidget so we can always make sure we do or dont already have a widget
     global plotWidget
 
@@ -84,12 +114,20 @@ def displayPlot(fig):
     #Placing the chart on the screen
     canvas.create_window(400,210, anchor="center", window = plotWidget)
 
+    #Creating Labels for both Regression Equation, and either the Coeff (R or R^2)
+    equationText = CTkLabel(Window, text = regEquation)
+    canvas.create_window(200,510, window=equationText)
+
+    #Coeff of x label
+    eitherCoeff = CTkLabel(Window, text=f"R^2 = {CoD}")
+    canvas.create_window(600,510, window = eitherCoeff)
+
 
 
 
 
 #loop/pulling window to the front/disabling the ability to resize
-Window.resizable(True, True)
+Window.resizable(False, False)
 Window.lift()
 Window.mainloop()
 

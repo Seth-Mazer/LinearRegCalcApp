@@ -4,12 +4,35 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-def plot(intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, dependantVarColumn):
-
+def plot(intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, dependantVarColumn, equation):
+    print("plot called")
     # Plotting data only if there are either 1 OR 2 features. Else, well, we dont do anything
     if len(coefficients) == 1:
-        print("e")
+
+        #Grabbing the feature from the equation
+        x = xMatrix.iloc[:, 0]
+
+        #Creating a figure to later be embedded to the display
+        fig = plt.figure(figsize=(6,4))
+
+        #Plotting Scatter Plot
+        plt.scatter(x, y, color="blue")
+
+        #Plotting the regression line
+        plt.plot(x, yHat, color='red')
+
+        #Creating labels for both axes
+        plt.ylabel("Dependant Data | Y")
+        plt.xlabel("X Values")
+
+        #Creaiting title and saving figure
+        plt.title("2D Scatter Plot")
+        plt.savefig("2D Scatter Plot")
+
+
+        #Returning the figure
+        return fig
+
     elif len(coefficients) == 2:
 
         #Grabbing all the feature data from the 2 xMatrix columns.
@@ -41,7 +64,7 @@ def plot(intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, de
 
         #Plotting Regression Plane
         # Creating a figure with a width and height of 10 and 7
-        fig = plt.figure(figsize=(10, 7))
+        fig = plt.figure(figsize=(6, 4))
         # Forcing 3D projection, creating only 1 plot
         chart = fig.add_subplot(111, projection='3d')
 
@@ -54,39 +77,27 @@ def plot(intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, de
         # Creating the axes labels
         chart.set_xlabel(xMatrix.columns[0])
         chart.set_ylabel(xMatrix.columns[1])
-        chart.set_zlabel(dependantVarColumn)
+        chart.set_zlabel("Dependant Variable | Y")
+
 
 
         # Adjusting view
         chart.view_init(elev=40, azim=195)
 
+        #Incrementing chartCount
+
+
         #Creating title and saving image
         plt.title("3D Linear Regression with Regression Plane")
-        plt.savefig("regression_plot.png")  # Saves to file
+        plt.savefig("3D Regression Plot")  # Saves to file
 
-        return fig
-
-
+    return fig
 
 
 
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#     else:
-#         print("Invalid amount of features, cannot plot past 3D")
+
+
+
 
 
 

@@ -11,7 +11,6 @@ def handleData(dVGEntry):
 
     #Getting the CSV's location
     from TkinterFunctions import dataFileLocation
-    print("here is da path: ", dataFileLocation)
 
 
     #Reading the csv data and storing it as df
@@ -89,7 +88,7 @@ def handleData(dVGEntry):
     #Printing Coeff of Det.
     print(round(CoD,5))
 
-    return intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, dependantVarColumn
+    return intercept, coefficients, features, CoD, yHat, y, xMatrix, model, df, dependantVarColumn, equation
 
 
 
